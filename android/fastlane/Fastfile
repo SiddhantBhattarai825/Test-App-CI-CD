@@ -1,0 +1,50 @@
+default_platform(:android)
+
+platform :android do
+  desc "Deploy a new version to the Google Play internal track"
+  lane :internal do
+    # Build the app bundle
+    gradle(
+      task: "bundle",
+      build_type: "Release",
+      print_command: true,
+      properties: {
+        "android.injected.version.code" => ENV["CI_VERSION_CODE"],
+        "android.injected.version.name" => ENV["CI_VERSION_NAME"]
+      }
+    )
+
+    # Upload to Play Store internal track
+    upload_to_play_store(
+      track: "internal",
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+      json_key: "fastlane/google-play-key.json",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Deploy a new version to the Google Play production track"
+  lane :production do
+    gradle(
+      task: "bundle",
+      build_type: "Release",
+      print_command: true,
+      properties: {
+        "android.injected.version.code" => ENV["CI_VERSION_CODE"],
+        "android.injected.version.name" => ENV["CI_VERSION_NAME"]
+      }
+    )
+
+    upload_to_play_store(
+      track: "production",
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+      json_key: "fastlane/google-play-key.json",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+end
+

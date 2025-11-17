@@ -70,10 +70,8 @@ jobs:
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
-
-      - name: Install fastlane
-        run: gem install fastlane
+          working-directory: android
 
       - name: Build & upload to Play Store (internal track)
         working-directory: android
-        run: fastlane internal
+        run: bundle exec fastlane internal

@@ -46,3 +46,8 @@ app.*.map.json
 
 android/release-key.jks
 android/key.properties
+
+# Sensitive deployment files
+keystore.b64
+*.json
+!pubspec_overrides.json
