@@ -39,11 +39,11 @@ jobs:
       - name: Run tests
         run: flutter test
 
-      - name: Decode Play Store JSON key
+      - name: Create Play Store JSON key
         working-directory: android
         run: |
           mkdir -p fastlane
-          echo "${{ secrets.PLAY_STORE_JSON }}" | base64 -d > fastlane/google-play-key.json
+          echo '${{ secrets.PLAY_STORE_JSON }}' > fastlane/google-play-key.json
 
       - name: Decode keystore
         working-directory: android
